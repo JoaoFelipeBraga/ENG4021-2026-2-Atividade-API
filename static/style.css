@@ -1,0 +1,138 @@
+:root {
+  --fundo: #e9edf2;
+  --tinta: #101828;
+  --apoio: #566074;
+  --sinal: #f5b800;
+  --linha: #c9d0da;
+  --fonte-titulo: "Oswald", "Arial Narrow", Impact, sans-serif;
+  --fonte-texto: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--tinta);
+  font-family: var(--fonte-texto);
+  line-height: 1.5;
+}
+
+/* Topo com a busca */
+.topo {
+  background: var(--tinta);
+  color: #fff;
+  border-bottom: 6px solid var(--sinal);
+}
+
+.topo__conteudo {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 32px;
+}
+
+.topo h1 {
+  margin: 0 0 20px;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.busca {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 560px;
+}
+
+.busca__rotulo {
+  position: absolute;
+  left: -9999px;
+}
+
+.busca input {
+  flex: 1 1 240px;
+  padding: 12px 14px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  font: inherit;
+  color: var(--tinta);
+}
+
+.busca button {
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--sinal);
+  color: var(--tinta);
+  font: 600 1rem var(--fonte-texto);
+  cursor: pointer;
+}
+
+.busca button:hover { background: #ffc933; }
+
+.busca input:focus-visible,
+.busca button:focus-visible,
+.rodape a:focus-visible {
+  outline: 3px solid var(--sinal);
+  outline-offset: 2px;
+}
+
+/* Conteúdo */
+.principal {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+.resumo {
+  margin: 0 0 24px;
+  color: var(--apoio);
+}
+
+.aviso {
+  padding: 16px 18px;
+  border-left: 6px solid var(--sinal);
+  background: #fff;
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 32px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.filme__poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--linha);
+}
+
+.filme__poster--vazio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--apoio);
+  font-size: 0.9rem;
+}
+
+.filme__titulo {
+  margin: 10px 0 0;
+  font-family: var(--fonte-titulo);
+  font-weight: 500;
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.filme__ano {
+  margin: 2px 0 0;
+  color: var(--apoio);
+  font-size: 0.95rem;
+}

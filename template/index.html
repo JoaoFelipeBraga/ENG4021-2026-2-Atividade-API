@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo de filmes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo__conteudo">
+      <h1>Catálogo de filmes</h1>
+      <form class="busca" method="get" action="{% url 'movie_list' %}" role="search">
+        <label for="q" class="busca__rotulo">Buscar filme</label>
+        <input id="q" name="q" type="search" value="{{ termo }}" placeholder="Digite um filme">
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="principal">
+    {% if erro %}
+      <p class="aviso" role="alert">{{ erro }}</p>
+    {% else %}
+      <p class="resumo">{{ filmes|length }} filmes encontrados para “{{ termo }}”</p>
+
+      <ul class="grade">
+        {% for filme in filmes %}
+          <li class="filme">
+            {% if filme.Poster and filme.Poster != "N/A" %}
+              <img class="filme__poster" src="{{ filme.Poster }}" alt="Pôster de {{ filme.Title }}" loading="lazy">
+            {% else %}
+              <div class="filme__poster filme__poster--vazio">Sem pôster</div>
+            {% endif %}
+            <h2 class="filme__titulo">{{ filme.Title }}</h2>
+            <p class="filme__ano">{{ filme.Year }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </main>
+</body>
+</html>
