@@ -1,34 +1,54 @@
 import requests
 from django.conf import settings
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from .models import Movie
+from django.db.models import Q
 
 def movie_list(request):
-    termo = request.GET.get("q", "").strip()
+    termo = request.GET.get('q', '').strip()
 
-    filmes = []
-    erro = None
-
-    try:
-        resposta = requests.get(
-            settings.OMDB_URL,
-            params={
-                "apikey": settings.OMDB_API_KEY,
-                "s": termo,
-                "type": "movie",
-            },
-            timeout=10,
+    if termo:
+        filmes = Movie.objects.filter(
+            Q(title__icontains=termo) |
+            Q(director__icontains=termo) |
+            Q(genre__icontains=termo)
         )
-        resposta.raise_for_status()
-        dados = resposta.json()
-        if dados.get("Response") == "True":
-            filmes = dados.get("Search", [])
-        else:
-            erro = "Nenhum filme encontrado para essa busca."
-    except requests.RequestException:
-        erro = "Não foi possível acessar a API agora. Tente novamente em instantes."
+    else:
+        filmes = Movie.objects.all()
 
-    contexto = {"filmes": filmes, "termo": termo, "erro": erro}
-    return render(request, "index.html", contexto)
+    contexto = {
+        'filmes': filmes,
+        'termo': termo
+    }
 
+    return render(request, 'index.html', contexto)
+
+def create_movie(request):
+    if request.method == "POST":
+        Movie.objects.create(
+            title = request.POST["title"],
+            director = request.POST["director"],
+            genre = request.POST["genre"],
+            release_date = request.POST["release_date"],
+        )
+        return redirect("movie_list")
+    return render(request, "forms.html", context={"action": "Adicionar"})
+
+def update_movie(request, id):
+    movie = Movie.objects.get(id = id)
+    if request.method == "POST":
+        movie.title = request.POST["title"]
+        movie.director = request.POST["director"]
+        movie.genre = request.POST["genre"]
+        movie.release_date = request.POST["release_date"]
+        movie.save()
+        return redirect("movie_list")
+    return render(request, "forms.html", context={"action": "Atualizar", "movie": movie})
+
+def delete_movie(request, id):
+    movie = Movie.objects.get(id = id)
+    if request.method == "POST" and request.POST["confirm"]:
+        movie.delete()
+        return redirect("movie_list")
+    return render(request, "confirmar.html", context={"action": "Deletar", "movie": movie})
 # Create your views here.

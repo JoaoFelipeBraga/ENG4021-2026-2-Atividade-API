@@ -130,5 +130,3 @@ MAILERS = {
     },
 }
 
-OMDB_URL = "https://omdbapi.com/"
-OMDB_API_KEY = os.environ.get("OMDB_API_KEY", "38b4b85b")

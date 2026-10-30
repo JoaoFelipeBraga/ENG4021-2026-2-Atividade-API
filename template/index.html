@@ -36,12 +36,16 @@
             {% else %}
               <div class="filme__poster filme__poster--vazio">Sem pôster</div>
             {% endif %}
-            <h2 class="filme__titulo">{{ filme.Title }}</h2>
-            <p class="filme__ano">{{ filme.Year }}</p>
+            <h2 class="filme__titulo">{{ filme.title }} <a href="{% url 'update_movie' filme.id %}">Atualizar</a>  <a href="{% url 'delete_movie' filme.id %}">Remover</a></h2>
+            <p class="filme__ano">{{ filme.director }}</p>
+            <p class="filme__ano">{{ filme.genre }}</p>
+            <p class="filme__ano">{{ filme.release_date }}</p>
+
           </li>
         {% endfor %}
       </ul>
     {% endif %}
+    <a href="/movies">Adicionar filme novo</a>
   </main>
 </body>
 </html>

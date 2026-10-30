@@ -20,5 +20,9 @@ from site_app import views
 
 urlpatterns = [
     path("", views.movie_list, name="movie_list"),
-]
+    path('admin/', admin.site.urls),
+    path('movies', views.create_movie),
+    path('movies/update/<int:id>/', views.update_movie, name='update_movie'),
+    path('movies/delete/<int:id>/', views.delete_movie, name='delete_movie')
+] 
 
